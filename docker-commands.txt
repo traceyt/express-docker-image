@@ -1,0 +1,15 @@
+# -p should be the port EXPOSE variable, app name should be a variable
+# can add a -f (force) to the rm to stop and remove
+docker stop `docker ps | express-docker-app | awk '{print $1}'`
+docker rm `docker ps -a | grep express-docker-app | awk '{print $1}'`
+docker build -t express-docker-i .
+docker run -p3000:3000 -d --name express-docker-app express-docker-i
+
+docker build -t express-docker-dev-i -f dev.Dockerfile . 
+docker run --name express-docker-dev-app -p 3000:3000 -v /gitRepo/express-docker-image:/usr/src/app express-docker-dev-i
+
+// remove all images
+docker rmi $(docker images -a -q)
+https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes 
+
+m5mnofk5utdqdgefk7j11rc1xxy3i1ywcxntuy0q
